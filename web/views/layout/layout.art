@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{ include "./head.art" }}
+    <body>
+        <!-- 顶部 -->
+        {{ include './header.art'}}
+
+        <!-- 内容 -->
+
+        {{ block 'body'}}
+        <div>默认</div>
+        {{ /block}}
+
+        <!-- 底部 -->
+        {{ include './footer.art'}}
+    </body>
+</html>
