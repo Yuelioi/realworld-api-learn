@@ -18,10 +18,10 @@ router.get("/:articleId", articleValidator.getArticle, articleControl.getArticle
 router.post("/", auth, articleValidator.createArticle, articleControl.createArticle);
 
 // 更新文章
-router.put("/:articleId", auth, articleControl.updateArticle);
+router.put("/:articleId", auth, articleValidator.updateArticle, articleControl.updateArticle);
 
 // 删除文章
-router.delete("/:articleId", auth, articleControl.deleteArticle);
+router.delete("/:articleId", auth, articleValidator.deleteArticle, articleControl.deleteArticle);
 
 // 添加评论
 router.post("/:articleId/comments", articleControl.createArticleComment);
