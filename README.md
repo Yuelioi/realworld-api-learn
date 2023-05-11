@@ -14,7 +14,7 @@
 
 ## 目录结构
 
-```json
+```text
 treee --dirs-first -I "node_modules|README.md|package.json|pnpm-lock.yaml"
 
 
