@@ -122,7 +122,7 @@ exports.deleteArticle = async (req, res, next) => {
 // 添加评论
 exports.createArticleComment = async (req, res, next) => {
     try {
-        res.send("Post User Login");
+        res.send("createArticleComment");
     } catch (err) {
         next(err);
     }
@@ -131,7 +131,7 @@ exports.createArticleComment = async (req, res, next) => {
 // 获取评论列表
 exports.getArticleComments = async (req, res, next) => {
     try {
-        res.send("Post User Login");
+        res.send("getArticleComments");
     } catch (err) {
         next(err);
     }
@@ -140,7 +140,7 @@ exports.getArticleComments = async (req, res, next) => {
 // 删除评论
 exports.deleteArticleComments = async (req, res, next) => {
     try {
-        res.send("Post User Login");
+        res.send("deleteArticleComments");
     } catch (err) {
         next(err);
     }

@@ -1,17 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const articleControl = require('../controller/article');
+const app = express();
 
-router.get("/", (req, res) => {
-    res.render("index");
-});
+// router.get('/', articleControl.showIndex);
 
-router.get("/login", (req, res) => {
-    res.render("login", {
-        isLogin: true,
-    });
-});
-router.get("/register", (req, res) => {
-    res.render("login");
-});
+app.use('/', require('./user'));
+app.use('/', require('./article'));
 
 module.exports = router;

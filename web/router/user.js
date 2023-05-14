@@ -1,25 +1,18 @@
-const express = require("express");
+const express = require('express');
+const auth = require('../middleware/auth');
+const userValidator = require('../validator/user');
+const userController = require('../controller/user');
+
 const router = express.Router();
-const auth = require("../middleware/auth");
-const userValidator = require("../validator/user");
-const userController = require("../controller/user");
 
-// 登录
-router.post("/users/login", userValidator.login, userController.login);
+router.get('/login', userController.showLogin);
 
-// 注册
-router.post(
-    "/users/",
-    // 配置验证规则
-    userValidator.register,
-    // 配置注册逻辑
-    userController.register
-);
+router.get('/register', userController.showRegister);
 
-// 获取用户
-router.get("/user", auth, userController.getCurrentUser);
+router.get('/settings', userController.showSettings);
 
-// 更新用户
-router.put("/user", auth, userController.updateCurrentUser);
+router.get('/profile/:username', userController.showProfile);
+
+router.get('/profile/:username/favorites', userController.showProfile);
 
 module.exports = router;
