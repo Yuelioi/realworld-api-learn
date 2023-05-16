@@ -8,15 +8,25 @@
         <!-- 内容 -->
 
         {{ block 'body'}}
-        <div>默认</div>
+
         {{ /block}}
 
         <!-- 底部 -->
         {{ include './footer.art'}}
+
+        <!-- 加载vue1 -->
+        <script type="text/javascript" src="/node_modules/vue/dist/vue.global.js"></script>
+        <!-- 更改vue配置 -->
+        <script>
+            const { createApp } = Vue;
+
+            const app = createApp({});
+            app.config.devtools = true;
+            console.log(app);
+            app._component.delimiters = ['{%', '%}'];
+        </script>
+
+        {{ block 'script' }}
+        {{ /block }}
     </body>
-
-    <script src="/node_modules/vue/dist/vue.global.js"></script>
-
-    {{ block 'script' }}
-    {{ /block }}
 </html>

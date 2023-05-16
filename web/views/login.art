@@ -6,6 +6,7 @@
     <div class="container page">
         <div class="row">
             <div class="col-md-6 offset-md-3 col-xs-12">
+                <h1>{% message %}</h1>
                 <h1 class="text-xs-center">
                     {{ isLogin ? 'Sign in' : 'Sign up' }}
                 </h1>
@@ -60,11 +61,18 @@
                             type="text"
                             placeholder="Your Name"
                             name="username"
+                            :value="user.username"
                         />
                     </fieldset>
                     {{ /if }}
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" placeholder="Email" name="email" />
+                        <input
+                            class="form-control form-control-lg"
+                            type="text"
+                            placeholder="Email"
+                            name="email"
+                            :value="user.email"
+                        />
                     </fieldset>
                     <fieldset class="form-group">
                         <input
@@ -72,12 +80,14 @@
                             type="password"
                             placeholder="Password"
                             name="password"
+                            :value="user.password"
                         />
                     </fieldset>
                     <button class="btn btn-lg btn-primary pull-xs-right">
                         {{ isLogin ? 'Sign in' : 'Sign up' }}
                     </button>
                 </form>
+                <h1>{% user.username %}</h1>
             </div>
         </div>
     </div>
@@ -86,20 +96,28 @@
 
 {{ block 'script' }}
 
-<script>
-    const { createApp } = Vue;
+<script type="module">
+    app.config.globalProperties.message = 'Hello Vue!';
+    app.config.globalProperties.user = {
+        username: '111',
+        password: '',
+        email: '',
+    };
+    app.config.globalProperties.handleSubmit = () => {
+        console.log('submit');
+    };
+    // const app = createApp({
+    //     delimiters: ['{%', '%}'],
+    //     data() {
+    //         return {
+    //             message: '11',
+    //         };
+    //     },
+    //     // 组件选项
+    //     // 此处声明一些响应式状态
+    // });
 
-    createApp({
-        data() {
-            return {
-                message: 'Hello Vue!',
-            };
-        },
-        methods: {
-            handleSubmit() {
-                console.log('submit');
-            },
-        },
-    }).mount('#login');
+    app.mount('#login');
+    // console.log(app);
 </script>
 {{ /block}}
