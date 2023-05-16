@@ -38,3 +38,14 @@ exports.showProfile = async (req, res, next) => {
         next(err);
     }
 };
+
+// 用户注册
+exports.register = async (req, res, next) => {
+    try {
+        return res.render('login', {
+            errors: ['用户名不能为空'],
+        });
+    } catch (err) {
+        next(err);
+    }
+};

@@ -14,4 +14,9 @@
         <!-- 底部 -->
         {{ include './footer.art'}}
     </body>
+
+    <script src="/node_modules/vue/dist/vue.global.js"></script>
+
+    {{ block 'script' }}
+    {{ /block }}
 </html>

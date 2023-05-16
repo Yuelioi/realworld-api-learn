@@ -4,7 +4,6 @@ const jwt = require('../util/jwt');
 
 exports.showIndex = async (req, res, next) => {
     try {
-        console.log(11);
         res.render('index');
     } catch (err) {
         next(err);

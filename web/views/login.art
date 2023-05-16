@@ -2,44 +2,104 @@
 
 {{ block 'body'}}
 
-<div class="auth-page">
+<div class="auth-page" id="login">
     <div class="container page">
         <div class="row">
             <div class="col-md-6 offset-md-3 col-xs-12">
-                <h1 class="text-xs-center">{{ isLogin ? "Sign in" : "Sign up" }}</h1>
+                <h1 class="text-xs-center">
+                    {{ isLogin ? 'Sign in' : 'Sign up' }}
+                </h1>
                 <p class="text-xs-center">
                     <a href="">Have an account?</a>
                 </p>
-
+                {{ if errors }}
                 <ul class="error-messages">
-                    <li>That email is already taken</li>
+                    {{ each errors}}
+                    <li>{{ $value }}</li>
+                    {{ /each}}
                 </ul>
-
-                <form>
+                {{ /if}}
+                <!-- 传统 Web 表达提交的两种方式:
+                    同步提交
+                        默认: Content-Type: application/x-www-form-urlencoded
+                    异步提交, 随着Ajax的大量使用 (推荐)
+                        jQuery + 客户端模板
+                        vue react
+                -->
+                <!-- <form action="/register" method="post">
                     {{ if !isLogin}}
                     <fieldset class="form-group">
                         <input
                             class="form-control form-control-lg"
                             type="text"
-                            placeholder="Your Name" />
+                            placeholder="Your Name"
+                            name="username"
+                        />
                     </fieldset>
                     {{ /if }}
                     <fieldset class="form-group">
-                        <input
-                            class="form-control form-control-lg"
-                            type="text"
-                            placeholder="Email" />
+                        <input class="form-control form-control-lg" type="text" placeholder="Email" name="email" />
                     </fieldset>
                     <fieldset class="form-group">
                         <input
                             class="form-control form-control-lg"
                             type="password"
-                            placeholder="Password" />
+                            placeholder="Password"
+                            name="password"
+                        />
                     </fieldset>
-                    <button class="btn btn-lg btn-primary pull-xs-right">{{ isLogin ? "Sign in" : "Sign up" }}</button>
+                    <button class="btn btn-lg btn-primary pull-xs-right">
+                        {{ isLogin ? 'Sign in' : 'Sign up' }}
+                    </button>
+                </form> -->
+                <form @submit.prevent="handleSubmit">
+                    {{ if !isLogin}}
+                    <fieldset class="form-group">
+                        <input
+                            class="form-control form-control-lg"
+                            type="text"
+                            placeholder="Your Name"
+                            name="username"
+                        />
+                    </fieldset>
+                    {{ /if }}
+                    <fieldset class="form-group">
+                        <input class="form-control form-control-lg" type="text" placeholder="Email" name="email" />
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <input
+                            class="form-control form-control-lg"
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                        />
+                    </fieldset>
+                    <button class="btn btn-lg btn-primary pull-xs-right">
+                        {{ isLogin ? 'Sign in' : 'Sign up' }}
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+{{ /block}}
+
+{{ block 'script' }}
+
+<script>
+    const { createApp } = Vue;
+
+    createApp({
+        data() {
+            return {
+                message: 'Hello Vue!',
+            };
+        },
+        methods: {
+            handleSubmit() {
+                console.log('submit');
+            },
+        },
+    }).mount('#login');
+</script>
 {{ /block}}

@@ -1,6 +1,4 @@
 const express = require('express');
-const auth = require('../middleware/auth');
-const userValidator = require('../validator/user');
 const userController = require('../controller/user');
 
 const router = express.Router();
@@ -8,6 +6,8 @@ const router = express.Router();
 router.get('/login', userController.showLogin);
 
 router.get('/register', userController.showRegister);
+
+router.post('/register', userController.register);
 
 router.get('/settings', userController.showSettings);
 
