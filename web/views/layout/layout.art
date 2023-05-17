@@ -14,17 +14,11 @@
         <!-- 底部 -->
         {{ include './footer.art'}}
 
-        <!-- 加载vue1 -->
+        <!-- 加载 vue -->
         <script type="text/javascript" src="/node_modules/vue/dist/vue.global.js"></script>
-        <!-- 更改vue配置 -->
-        <script>
-            const { createApp } = Vue;
-
-            const app = createApp({});
-            app.config.devtools = true;
-            console.log(app);
-            app._component.delimiters = ['{%', '%}'];
-        </script>
+        <!-- 加载 axios  -->
+        <script type="text/javascript" src="/node_modules/axios/dist/axios.js"></script>
+        <!-- 更改 vue 配置 -->
 
         {{ block 'script' }}
         {{ /block }}

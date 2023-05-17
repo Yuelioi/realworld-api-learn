@@ -42,9 +42,16 @@ exports.showProfile = async (req, res, next) => {
 // 用户注册
 exports.register = async (req, res, next) => {
     try {
-        return res.render('login', {
-            errors: ['用户名不能为空'],
-        });
+        // 1. 数据验证
+        // 2. 创建新用户
+        const user = new User(req.body.user);
+        await user.save();
+
+        // 3. 保持登录状态
+        req.session.user = user;
+
+        // 4. 跳转到首页
+        res.status(200).json({ user });
     } catch (err) {
         next(err);
     }

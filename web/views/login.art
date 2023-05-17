@@ -13,13 +13,11 @@
                 <p class="text-xs-center">
                     <a href="">Have an account?</a>
                 </p>
-                {{ if errors }}
+
                 <ul class="error-messages">
-                    {{ each errors}}
-                    <li>{{ $value }}</li>
-                    {{ /each}}
+                    <li v-for="(err, index) in errors" :key="index">{% err.msg %}</li>
                 </ul>
-                {{ /if}}
+
                 <!-- 传统 Web 表达提交的两种方式:
                     同步提交
                         默认: Content-Type: application/x-www-form-urlencoded
@@ -28,30 +26,7 @@
                         vue react
                 -->
                 <!-- <form action="/register" method="post">
-                    {{ if !isLogin}}
-                    <fieldset class="form-group">
-                        <input
-                            class="form-control form-control-lg"
-                            type="text"
-                            placeholder="Your Name"
-                            name="username"
-                        />
-                    </fieldset>
-                    {{ /if }}
-                    <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" placeholder="Email" name="email" />
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <input
-                            class="form-control form-control-lg"
-                            type="password"
-                            placeholder="Password"
-                            name="password"
-                        />
-                    </fieldset>
-                    <button class="btn btn-lg btn-primary pull-xs-right">
-                        {{ isLogin ? 'Sign in' : 'Sign up' }}
-                    </button>
+
                 </form> -->
                 <form @submit.prevent="handleSubmit">
                     {{ if !isLogin}}
@@ -61,7 +36,7 @@
                             type="text"
                             placeholder="Your Name"
                             name="username"
-                            :value="user.username"
+                            v-model="user.username"
                         />
                     </fieldset>
                     {{ /if }}
@@ -71,7 +46,7 @@
                             type="text"
                             placeholder="Email"
                             name="email"
-                            :value="user.email"
+                            v-model="user.email"
                         />
                     </fieldset>
                     <fieldset class="form-group">
@@ -80,14 +55,13 @@
                             type="password"
                             placeholder="Password"
                             name="password"
-                            :value="user.password"
+                            v-model="user.password"
                         />
                     </fieldset>
                     <button class="btn btn-lg btn-primary pull-xs-right">
                         {{ isLogin ? 'Sign in' : 'Sign up' }}
                     </button>
                 </form>
-                <h1>{% user.username %}</h1>
             </div>
         </div>
     </div>
@@ -97,27 +71,40 @@
 {{ block 'script' }}
 
 <script type="module">
-    app.config.globalProperties.message = 'Hello Vue!';
-    app.config.globalProperties.user = {
-        username: '111',
-        password: '',
-        email: '',
-    };
-    app.config.globalProperties.handleSubmit = () => {
-        console.log('submit');
-    };
-    // const app = createApp({
-    //     delimiters: ['{%', '%}'],
-    //     data() {
-    //         return {
-    //             message: '11',
-    //         };
-    //     },
-    //     // 组件选项
-    //     // 此处声明一些响应式状态
-    // });
+    const { createApp } = Vue;
 
-    app.mount('#login');
-    // console.log(app);
+    createApp({
+        delimiters: ['{%', '%}'],
+        data() {
+            return {
+                message: 'Hello Vue!',
+                errors: [],
+                user: {
+                    username: '',
+                    password: '',
+                    email: '',
+                },
+            };
+        },
+        methods: {
+            async handleSubmit() {
+                try {
+                    // 默认提交 application/json 格式数据
+                    console.log(this.user);
+
+                    const { data } = await axios.post('/register', {
+                        user: this.user,
+                    });
+                    this.errors = [];
+                    window.location.href = '/';
+                } catch (err) {
+                    if (err.response.status === 400) {
+                        this.errors = err.response.data.errors;
+                    }
+                    console.log('注册失败');
+                }
+            },
+        },
+    }).mount('#login');
 </script>
 {{ /block}}
