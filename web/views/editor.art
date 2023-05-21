@@ -1,0 +1,91 @@
+{{ extend './layout/layout.art'}}
+
+{{ block 'body'}}
+
+<div class="editor-page" id="editor-page">
+    <div class="container page">
+        <div class="row">
+            <div class="col-md-10 offset-md-1 col-xs-12">
+                <form @submit.prevent="handleSubmit">
+                    <fieldset>
+                        <fieldset class="form-group">
+                            <input
+                                type="text"
+                                class="form-control form-control-lg"
+                                v-model="article.title"
+                                placeholder="Article Title"
+                            />
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="What's this article about !?"
+                                v-model="article.description"
+                            />
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <textarea
+                                v-model="article.body"
+                                class="form-control"
+                                rows="8"
+                                placeholder="Write your article (in markdown)"
+                            ></textarea>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Enter tags"
+                                @keyup.enter="handleAddTag"
+                            />
+                            <div class="tag-list">
+                                <span class="tag-default tag-pill" v-for="tag in article.tagList" :key="tag"
+                                    ><i class="ion-close-round"></i>
+                                    {% tag %}
+                                </span>
+                            </div>
+                        </fieldset>
+                        <button class="btn btn-lg pull-xs-right btn-primary" type="submit">Publish Article</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ /block}}
+{{ block 'script' }}
+<script type="module">
+    const { createApp } = Vue;
+    const app = createApp({
+        delimiters: ['{%', '%}'],
+        data() {
+            return {
+                article: {
+                    title: 'New Article',
+                    description: '',
+                    body: '',
+                    tagList: [],
+                },
+            };
+        },
+        methods: {
+            handleAddTag(e) {
+                if (!e.target.value) return;
+                this.article.tagList = [...new Set([...this.article.tagList, e.target.value])];
+                e.target.value = '';
+            },
+            async handleSubmit() {
+                try {
+                    const { data } = await axios.post('/articles', { article: this.article });
+                } catch (err) {
+                    window.alert('发布失败');
+                }
+            },
+        },
+    });
+
+    app.mount('#editor-page');
+</script>
+{{ /block}}

@@ -92,7 +92,8 @@
                     // 默认提交 application/json 格式数据
                     console.log(this.user);
 
-                    const { data } = await axios.post('/register', {
+                    const url = window.location.pathname;
+                    const { data } = await axios.post(url, {
                         user: this.user,
                     });
                     this.errors = [];

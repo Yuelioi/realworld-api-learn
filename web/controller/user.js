@@ -22,6 +22,17 @@ exports.showRegister = async (req, res, next) => {
         next(err);
     }
 };
+// 用户注册
+exports.logout = async (req, res, next) => {
+    try {
+        // 清除登录状态
+        // 跳转首页
+        req.session.user = null;
+        res.redirect('/');
+    } catch (err) {
+        next(err);
+    }
+};
 // 获取用户
 exports.showSettings = async (req, res, next) => {
     try {
@@ -46,6 +57,21 @@ exports.register = async (req, res, next) => {
         // 2. 创建新用户
         const user = new User(req.body.user);
         await user.save();
+
+        // 3. 保持登录状态
+        req.session.user = user;
+
+        // 4. 跳转到首页
+        res.status(200).json({ user });
+    } catch (err) {
+        next(err);
+    }
+};
+// 用户注册
+exports.login = async (req, res, next) => {
+    try {
+        // 1. 数据验证
+        const {user} = req;
 
         // 3. 保持登录状态
         req.session.user = user;

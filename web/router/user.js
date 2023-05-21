@@ -8,8 +8,10 @@ const router = express.Router();
 router.get('/login', userController.showLogin);
 
 router.get('/register', userController.showRegister);
+router.get('/logout', userController.logout);
 
 router.post('/register', userValidator.register, userController.register);
+router.post('/login', userValidator.login, userController.login);
 
 router.get('/settings', auth, userController.showSettings);
 

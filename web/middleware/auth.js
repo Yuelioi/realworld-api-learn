@@ -1,8 +1,7 @@
 module.exports = async (req, res, next) => {
     // 检查有没有session user
-    const sessionUser = req.session.sessionUser;
-    console.log(112);
-    console.log(req.session.sessionUser);
+    const sessionUser = req.session.user;
+
     if (sessionUser) {
         return next();
     }

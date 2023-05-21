@@ -35,7 +35,6 @@ app.use(
         // cookie过期 会生成新的session ID
     })
 );
-
 app.use((req, res, next) => {
     // 统一给模板添加数据
     app.locals.sessionUser = req.session.user;
