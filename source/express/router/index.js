@@ -16,11 +16,23 @@ methods.forEach((method) => {
 Router.prototype.handle = function (req, res) {
     const { pathname } = url.parse(req.url);
     const method = req.method.toLowerCase();
-    const route = this.stack.find((router) => router.path === pathname && router.method === method);
+    let index = 0;
+    const next = () => {
+        if (index >= this.stack.length) {
+            return res.end("Cant get");
+        }
 
-    if (route) {
-        return route.handler(req, res);
-    }
-    res.end("404 not found");
+        const layer = this.stack[index++];
+
+        if (layer.path === pathname) {
+            // ...
+        }
+        if (layer.method === method) {
+            return layer.handler(req, res, next);
+        }
+        next();
+    };
+
+    next();
 };
 module.exports = Router;
